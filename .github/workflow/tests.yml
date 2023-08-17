@@ -9,7 +9,6 @@ jobs:
         python-version: ["3.8", "3.9", "3.10", "3.11"]
         poetry-version: ["1.0", "1.1.15"]
         os: [ubuntu-18.04, macos-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
       - name: Install Python
@@ -29,4 +28,5 @@ jobs:
           key: venv-${{ hashFiles('poetry.lock') }}
       - name: Install the project dependencies
         run: poetry install
-      - name: Run the automated tests (
+      - name: Run the automated tests (for example)
+        run: poetry run pytest -v
