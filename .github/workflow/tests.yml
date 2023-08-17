@@ -1,13 +1,7 @@
 name: CI
 on:
-  push:
-    branches:
-      - master
-      - feature/github_actions
-  pull_request:
-    types:
-      - opened
-      - synchronize
+  - push
+  - pull_request
 
 jobs:
   test:
