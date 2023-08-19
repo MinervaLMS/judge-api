@@ -71,33 +71,11 @@ jobs:
       # so this line is super-simple. But it could be as complex as you need.
       - run: poetry run pytest
 
-  coverage-combine:
-    needs: [test]
+  coverage:
     runs-on: ubuntu-latest
     steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - name: Get Cover
+        uses: orgoro/coverage@v3.1
         with:
-          python-version: "3.9"
-          # Issue ref: https://github.com/actions/setup-python/issues/436
-          # cache: "pip"
-          # cache-dependency-path: pyproject.toml
-      - name: Get coverage files
-        uses: actions/download-artifact@v3
-        with:
-          name: coverage
-          path: coverage
-      - run: pip install coverage[toml]
-      - run: ls -la coverage
-      - run: coverage combine coverage
-      - run: coverage report
-      - run: coverage html --show-contexts --title "Coverage for ${{ github.sha }}"
-      - name: Store coverage HTML
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage-html
-          path: htmlcov
+          coverageFile: path/to/coverage.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
