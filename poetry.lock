@@ -41,6 +41,9 @@ category = "dev"
 optional = false
 python-versions = ">=3.8"
 
+[package.dependencies]
+tomli = {version = "*", optional = true, markers = "python_full_version <= \"3.11.0a6\" and extra == \"toml\""}
+
 [package.extras]
 toml = ["tomli"]
 
@@ -235,6 +238,21 @@ tomli = {version = ">=1.0.0", markers = "python_version < \"3.11\""}
 testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.7.2)", "requests", "setuptools", "xmlschema"]
 
 [[package]]
+name = "pytest-cov"
+version = "4.1.0"
+description = "Pytest plugin for measuring coverage."
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+coverage = {version = ">=5.2.1", extras = ["toml"]}
+pytest = ">=4.6"
+
+[package.extras]
+testing = ["fields", "hunter", "process-tests", "six", "pytest-xdist", "virtualenv"]
+
+[[package]]
 name = "pytest-flask"
 version = "1.2.0"
 description = "A set of py.test fixtures to test Flask applications."
@@ -312,7 +330,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-ena
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<=3.11"
-content-hash = "c1e583ee5a25963bd132eb3b52c019e8014042fbc0f801ab3ef443bfc3d98bfb"
+content-hash = "b5949a5208870f5f781b2f974bd9b85df4ca6b97cf32611aa2a8556fec20da1f"
 
 [metadata.files]
 blinker = []
@@ -336,6 +354,7 @@ platformdirs = []
 pluggy = []
 pre-commit = []
 pytest = []
+pytest-cov = []
 pytest-flask = []
 pyyaml = []
 tomli = []
