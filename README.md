@@ -128,10 +128,13 @@ Nice to have:
             poetry env use 3.8
         ```
 4. Install the required dependencies by running the following command:
-    ```
+    ```sh
         poetry install
     ```
-5. Check to see if you can initiate a pre-commit action and ensure that the hooks are functioning as intended.
+5. We recommend configuring the pre-commit functionality within the Poetry environment, especially if you won't be using it in other repositories. However, you also have the option to set it up globally on your PC by installing pre-commit system-wide.
+  ```sh
+    pre-commit install
+  ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
