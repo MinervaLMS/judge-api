@@ -5,14 +5,15 @@ description = "This is an API that connects Minerva with a code judge."
 authors = ["Cristian Camilo Henao Rojas <crhenaor@unal.edu.co>"]
 
 [tool.poetry.dependencies]
-python = ">=3.8,<=3.11"
+python = ">=3.8,<=3.12"
 Flask = "^2.3.2"
-pytest = "^7.4.0"
+
 
 [tool.poetry.dev-dependencies]
 coverage = "^7.3.0"
 pre-commit = "^3.3.3"
 pytest-flask = "^1.2.0"
+pytest = "^7.4.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
