@@ -52,6 +52,8 @@ class Executor:
 
             output_value = new_stdout.getvalue().strip()
             sys.stdout = old_stdout
+            print(self.output)
+            print(output_value)
 
             if output_value == self.output:
                 return True
