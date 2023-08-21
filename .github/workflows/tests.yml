@@ -71,11 +71,16 @@ jobs:
       # so this line is super-simple. But it could be as complex as you need.
       - run: poetry run pytest
 
-  coverage:
+  coverage-report:
     runs-on: ubuntu-latest
+    name: Coverage report
     steps:
-      - name: Get Cover
-        uses: orgoro/coverage@v3.1
+      - name: Checkout
+        uses: actions/checkout@v2
         with:
-          coverageFile: ".github/workflows/coverage.xml"
-          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      - name: Generate coverage report
+        id: generate-coverage-report
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: ./
