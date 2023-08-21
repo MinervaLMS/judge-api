@@ -1,4 +1,4 @@
-"""Flask app creation."""
+"""Flask app creation for testing."""
 
 from flask import Flask
 
