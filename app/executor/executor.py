@@ -9,7 +9,7 @@ import psutil
 class Executor:
     """Class that conects the judge with the code."""
 
-    def __init__(self, output, input_data, code):
+    def __init__(self, output: str, input_data: str, code: str):
         self.output = output
         self.input_data = input_data
         self.code = code
@@ -27,16 +27,10 @@ class Executor:
 
         memory_after = psutil.virtual_memory().available
 
-        if result:
-            return {
-                "execution_time": end_time - start_time,
-                "memory_used": (memory_before - memory_after) / (1024**2),
-                "verdict": "AC",
-            }
         return {
             "execution_time": end_time - start_time,
-            "memory_used": memory_before - memory_after,
-            "verdict": "WA",
+            "memory_used": (memory_before - memory_after) / (1024**2),
+            "verdict": ("AC" if result else "WA"),
         }
 
     def executioner(self) -> bool:
@@ -56,7 +50,8 @@ class Executor:
             if output_value == self.output:
                 return True
             return False
-        except ZeroDivisionError:
+
+        except Exception:  # pylint: disable=broad-except
             output_value = new_stdout.getvalue().strip()
             sys.stdout = old_stdout
             return False
