@@ -1,7 +1,7 @@
 """Import the Middleware class from the corresponding module"""
 import pytest
 from app.middleware.request_validations import Middleware
-from ..resources import DATA
+from app.tests.resources import DATA
 
 
 @pytest.fixture(name="data")
