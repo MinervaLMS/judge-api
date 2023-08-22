@@ -61,7 +61,7 @@ class Middleware:
         Check if the provided language is supported.
         """
         supported_languages = {
-            "python",
+            "py3",
             "java",
             "cpp",
         }
