@@ -1,7 +1,7 @@
 """Import the Middleware class from the corresponding module"""
 import pytest
 from app.middleware.request_validations import Middleware
-from app.tests.resources import DATA
+from tests.resources import DATA
 
 
 @pytest.fixture(name="data")
@@ -24,7 +24,7 @@ def test_validate_code_long_time_limit(submission_data):
 
 def test_validate_code_valid_py(submission_data):
     """verify validate_code method for valid data"""
-    submission_data.language = "python"
+    submission_data.language = "py3"
     assert submission_data.validate_code() is True
     assert submission_data.standardize_language_name() is True
 
