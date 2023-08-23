@@ -1,5 +1,0 @@
-name: "Pytest annotate PR"
-description: "Annotate PR with Pytest coverage"
-runs:
-  using: "docker"
-  image: "Dockerfile"
