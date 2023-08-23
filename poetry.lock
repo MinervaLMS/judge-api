@@ -245,6 +245,17 @@ pyyaml = ">=5.1"
 virtualenv = ">=20.10.0"
 
 [[package]]
+name = "psutil"
+version = "5.9.5"
+description = "Cross-platform lib for process and system monitoring in Python."
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+
+[package.extras]
+test = ["ipaddress", "mock", "enum34", "pywin32", "wmi"]
+
+[[package]]
 name = "pytest"
 version = "7.4.0"
 description = "pytest: simple powerful testing with Python"
@@ -412,7 +423,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-ena
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<=3.12"
-content-hash = "3aea6259d9064dc63a4907352dd3f8fcdc0bde8ae6b2f5bf3bd8540ecfe2d365"
+content-hash = "d62257668135ac217bb2a36c49acc095503560f7591965260ec4b2d25e238a7b"
 
 [metadata.files]
 blinker = []
@@ -437,6 +448,7 @@ packaging = []
 platformdirs = []
 pluggy = []
 pre-commit = []
+psutil = []
 pytest = []
 pytest-cov = []
 pytest-flask = []
