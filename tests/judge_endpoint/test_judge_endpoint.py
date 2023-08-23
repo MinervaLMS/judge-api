@@ -1,27 +1,5 @@
 """Tests for endpoint views."""
 
-import pytest
-from . import create_app
-
-
-@pytest.fixture()
-def app():
-    """Function to obtain instance of app when needed"""
-    app = create_app()
-    app.config.update(
-        {
-            "TESTING": True,
-        }
-    )
-
-    yield app
-
-
-@pytest.fixture()
-def client(app):
-    """Function to obtain instance of app's client when needed"""
-    return app.test_client()
-
 
 def test_judge_end_ping(client) -> None:
     """Test for ping endpoint."""
@@ -33,7 +11,7 @@ def test_judge_end_ping(client) -> None:
 def test_judge_end_get(client) -> None:
     """Test for GET judge endpoint"""
     response = client.get("/judge/end")
-    assert response.status_code == 400
+    assert response.status_code == 405
 
 
 def test_judge_end_post_failed_not_JSON(client) -> None:
@@ -104,7 +82,7 @@ def test_judge_end_post_middleware_error_time_limit(app, client) -> None:
                     "submission": "19A7B",
                     "input": [1, 2, 3, 4],
                     "output": [1, 4, 9, 16],
-                    "time_limit": 100,
+                    "time_limit": 10001,
                     "memory_limit": 256,
                     "language": "py3",
                 }
@@ -165,13 +143,6 @@ def test_judge_end_post_middleware_error_not_standardized(app, client) -> None:
     )
 
 
-CODE_TEST = "x=input()\nprint(list(i for i in range(x)))"
-output_1, input_1 = (
-    "[0, 1]",
-    "2",
-)
-
-
 def test_judge_end_post_code_test_AC(app, client) -> None:
     """Test for executor's accepted code at judge endpoint."""
     with app.app_context():
@@ -179,10 +150,10 @@ def test_judge_end_post_code_test_AC(app, client) -> None:
             "/judge/end",
             json=(
                 {
-                    "code": CODE_TEST,
+                    "code": "x=input()\nprint(list(i for i in range(x)))",
                     "submission": "19Aa7B",
-                    "input": input_1,
-                    "output": output_1,
+                    "input": "2",
+                    "output": "[0, 1]",
                     "time_limit": 1,
                     "memory_limit": 100,
                     "language": "py3",
@@ -193,9 +164,6 @@ def test_judge_end_post_code_test_AC(app, client) -> None:
     assert response.status_code == 201 and data["verdict"] == "AC"
 
 
-input_2 = "[0, 2]", "2"
-
-
 def test_judge_end_post_code_test_WA(app, client) -> None:
     """Test for executor's wrong answer code at judge endpoint."""
     with app.app_context():
@@ -203,10 +171,10 @@ def test_judge_end_post_code_test_WA(app, client) -> None:
             "/judge/end",
             json=(
                 {
-                    "code": CODE_TEST,
+                    "code": "x=input()\nprint(list(i for i in range(x)))",
                     "submission": "19Aa7B",
-                    "input": input_2,
-                    "output": output_1,
+                    "input": "2",
+                    "output": "[0, 2]",
                     "time_limit": 1,
                     "memory_limit": 100,
                     "language": "py3",

@@ -1,27 +1,25 @@
 """ Endpoint for judge's data input """
-from flask import Blueprint, json, request
-from .endpoint_check import Endpoint_check
+from flask import Blueprint, request, Request
+from .endpoint_check import EndpointCheck
 from app.executor.executor import Executor
 
 
 judge_endpoint_bp = Blueprint("judge_endpoint", __name__)
 
 
-@judge_endpoint_bp.route("/judge/end", methods=["GET", "POST"])
-def judge_end() -> (json, int):
+@judge_endpoint_bp.route("/judge/end", methods=["POST"])
+def judge_end() -> Request:
     """Endpoint receiving data from back-end
-    return: json containing either a error message or the data returned by the executor, and a response status
-    """
-    check = Endpoint_check(request)
 
+    return: Request containing either a error message or the data returned by the executor.
+    """
+
+    check = EndpointCheck(request)
     if not check.judge_data_complete():
         return check.response, 400
 
-    if not check.middleware.validate_code():
-        return check.response, 400
-
     executor = Executor(
-        check.middleware.output_data, check.middleware.input_data, check.middleware.code
+        check.middleware.output, check.middleware.input, check.middleware.code
     )
 
     return executor.judge(), 201

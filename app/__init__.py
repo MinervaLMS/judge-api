@@ -2,7 +2,8 @@
 
 from flask import Flask
 
-from app.ping import ping, judge_endpoint_bp
+from app.ping import ping
+from app.ping.judge_endpoint import judge_endpoint_bp
 
 
 # Active endpoints noted as following:
