@@ -18,10 +18,11 @@ class EndpointCheck:
 
     def judge_data_complete(self) -> bool:
         """Checks if data needed is fulfilled.
-        Archive must be a dict (Json) and contain no more and no less than data in 'KEYS_REQUESTED'"""
+        Request must contain a dict (Json) with no more and no less than data in 'KEYS_REQUESTED'
+        """
 
         request = self.request
-        
+
         if not request.is_json:
             self.response = {"message": "Not a JSON"}
             return False
@@ -40,5 +41,3 @@ class EndpointCheck:
             return False
 
         return True
-
-    
