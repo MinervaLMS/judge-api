@@ -14,7 +14,7 @@ keys_requested = (
 )
 
 
-class Endpoint_check:
+class EndpointCheck:
     def __init__(self, request: request):
         """Class that checks the request received for correction and completeness of judge's input
         Args:
