@@ -32,4 +32,4 @@ repos:
       - id: flake8
         args:
           - --config=.code_quality/.flake8
-          - --ignore=W503 E203
+          - --ignore=W503 E203 E501
