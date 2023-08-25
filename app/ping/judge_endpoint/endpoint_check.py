@@ -1,6 +1,6 @@
 """Code that runs checks in order to confirm data that will be sent to Judge is correct"""
 
-from flask import request, json
+from flask import request
 from app.middleware.request_validations import Middleware
 from app.utils.constants import KEYS_REQUESTED
 

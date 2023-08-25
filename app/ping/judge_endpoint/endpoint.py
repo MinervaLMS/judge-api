@@ -4,10 +4,10 @@ from .endpoint_check import EndpointCheck
 from app.executor.executor import Executor
 
 
-judge_endpoint_bp = Blueprint("judge_endpoint", __name__)
+judge_endpoint = Blueprint("judge_endpoint", __name__)
 
 
-@judge_endpoint_bp.route("/judge/end", methods=["POST"])
+@judge_endpoint.route("/judge/end", methods=["POST"])
 def judge_end() -> Request:
     """Endpoint receiving data from back-end
 
