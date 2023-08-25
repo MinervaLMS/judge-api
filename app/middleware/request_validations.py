@@ -1,4 +1,5 @@
 """This module contains Middleware class"""
+from utils.exceptions import RequestFormatError
 
 
 class Middleware:
@@ -27,45 +28,66 @@ class Middleware:
         """
         Check if the language name is standardized
         if the code, input and output are not empty
-        if the time limit is reasonable
+        if the time and memory limit is reasonable
         """
-        if not self.standardize_language_name():
-            return False
-
-        if not self.empty_data():
-            return False
-
-        if self.time_limit > 10000:
-            return False
-
-        return True
+        try:
+            self.empty_data()
+            self.standardize_language_name()
+            self.validate_time_limit()
+            self.validate_memory_limit()
+            return "Valid submission"
+        except RequestFormatError as error:
+            return str(error)
 
     def empty_data(self):
         """
         Check if the code, input, output, time_limit,
-        memory_limit and language are not empty
+        memory_limit, and language fields are not empty.
+
+        Raises:
+            RequestFormatError: If any of the required fields is missing or empty.
         """
         fields_to_check = [
-            self.code,
-            self.input,
-            self.output,
-            self.time_limit,
-            self.memory_limit,
-            self.language,
+            ("code", self.code),
+            ("input", self.input),
+            ("output", self.output),
+            ("time_limit", self.time_limit),
+            ("memory_limit", self.memory_limit),
+            ("language", self.language),
         ]
 
-        return not any(field == "" for field in fields_to_check)
+        for field_name, field_value in fields_to_check:
+            if not field_value:
+                raise RequestFormatError(
+                    field_name, f"Missing or empty {field_name} field."
+                )
 
     def standardize_language_name(self):
         """
         Check if the provided language is supported.
-        """
-        supported_languages = {
-            "py3",
-            "java",
-            "cpp",
-        }
 
-        if self.language in supported_languages:
-            return True
-        return False
+        Raises:
+            RequestFormatError: If the provided language is not supported.
+        """
+        supported_languages = {"py3", "java", "cpp"}
+        if self.language not in supported_languages:
+            raise RequestFormatError("language", "Unsupported language provided.")
+
+    def validate_time_limit(self):
+        """
+        Validate if the provided time limit is within a reasonable range.
+
+        Raises:
+            RequestFormatError: If the time limit is invalid.
+        """
+        if self.time_limit > 10000:
+            raise RequestFormatError("time_limit", "Invalid time limit provided.")
+
+    def validate_memory_limit(self):
+        """
+        Validate if the provided memory limit is within a reasonable range.
+        Raises:
+            RequestFormatError: If the memory limit is invalid.
+        """
+        if self.memory_limit > 256:
+            raise RequestFormatError("memory_limit", "Invalid memory limit provided.")
