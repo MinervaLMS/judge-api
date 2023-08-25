@@ -1,5 +1,6 @@
-"""Submission for the unit tests"""
+"""Module with resources for testing."""
 
+"""Submission for the unit tests"""
 DATA = {
     "code": "print(int(input())**2)",
     "input": "3",
@@ -9,7 +10,7 @@ DATA = {
     "language": "py3",
 }
 
-"""Module with resources for testing."""
+
 
 CODE_EXECUTOR = """
 n, k = map(int,'input()'.split("-"))
