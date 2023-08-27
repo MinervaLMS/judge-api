@@ -1,12 +1,12 @@
 """Code that runs checks in order to confirm data that will be sent to Judge is correct"""
 
-from flask import request
+from flask import request, Request
 from app.middleware.request_validations import Middleware
 from app.utils.constants import KEYS_REQUESTED
 
 
 class EndpointCheck:
-    def __init__(self, request: request):
+    def __init__(self, request: Request):
         """Class that checks the request received for correction and completeness of judge's input
         Args:
             request: request received from back-end supossedly containing correct data for judge
@@ -19,6 +19,9 @@ class EndpointCheck:
     def judge_data_complete(self) -> bool:
         """Checks if data needed is fulfilled.
         Request must contain a dict (Json) with no more and no less than data in 'KEYS_REQUESTED'
+
+            Returns:
+                    Bool. True if request is correct and complete, False otherwise.
         """
 
         request = self.request
@@ -33,11 +36,9 @@ class EndpointCheck:
             return False
 
         self.middleware = Middleware(data)
+        self.response = {"message" : self.middleware.validate_code()}
 
-        if not self.middleware.validate_code():
-            self.response = {
-                "message": "Wrong values. Programming language not standardized, code is empty or time limit is unreasonable"
-            }
+        if self.response["message"] != "Valid submission":
             return False
 
         return True

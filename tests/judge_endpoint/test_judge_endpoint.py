@@ -1,4 +1,5 @@
 """Tests for endpoint views."""
+from typing import Any
 
 
 def test_judge_end_ping(client) -> None:
@@ -21,7 +22,7 @@ def test_judge_end_post_failed_not_JSON(client) -> None:
     assert data["message"] == "Not a JSON"
 
 
-def test_judge_end_post_failed_missing_keys(app, client) -> None:
+def test_judge_end_post_failed_missing(app, client) -> None:
     """Test for missing JSON keys judge endpoint"""
     with app.app_context():
         response = client.post("/judge/end", json=({"faltan": "valores"}))
@@ -29,118 +30,103 @@ def test_judge_end_post_failed_missing_keys(app, client) -> None:
     assert data["message"] == "Missing/wrong key values"
 
 
-def test_judge_end_post_failed_wrong_keys(app, client) -> None:
+def test_judge_end_post_failed_wrong_keys(
+    data_end: dict, app: Any, client: Any
+) -> None:
     """Test for wrong Json Keys judge endpoint"""
+
     with app.app_context():
+        data_end["codigo"] = "facilito"
         response = client.post(
             "/judge/end",
-            json=(
-                {
-                    "code": "print('Hello World!')\n",
-                    "language": "py3",
-                    "submission": "19A7B",
-                    "input": [1, 2, 3, 4],
-                    "output": [1, 4, 9, 16],
-                    "time_limit": 100,
-                    "memory_limit": 256,
-                    "codigo": "facilito",
-                }
-            ),
+            json=(data_end),
         )
         data = response.get_json()
     assert data["message"] == "Missing/wrong key values"
 
 
-def test_judge_end_post_failed_missing_keys(app, client) -> None:
+def test_judge_end_post_failed_missing_key(
+    data_end: dict, app: Any, client: Any
+) -> None:
     """Test for missing keys at judge endpoint."""
+    data_end = data_end.copy().pop("language", None)
     with app.app_context():
         response = client.post(
             "/judge/end",
-            json=(
-                {
-                    "code": "print('Hello World!')\n",
-                    "submission": "19A7B",
-                    "input": [1, 2, 3, 4],
-                    "output": [1, 4, 9, 16],
-                    "time_limit": 100,
-                    "memory_limit": 256,
-                }
-            ),
+            json=(data_end),
         )
         data = response.get_json()
     assert data["message"] == "Missing/wrong key values"
 
 
-def test_judge_end_post_middleware_error_time_limit(app, client) -> None:
+def test_judge_end_post_middleware_error_time_limit(
+    data_end: dict, app: Any, client: Any
+) -> None:
     """Test for middleware's time limit judge endpoint."""
+    data_end["time_limit"] = 10001
     with app.app_context():
         response = client.post(
             "/judge/end",
-            json=(
-                {
-                    "code": "print('Hello World!')\n",
-                    "submission": "19A7B",
-                    "input": [1, 2, 3, 4],
-                    "output": [1, 4, 9, 16],
-                    "time_limit": 10001,
-                    "memory_limit": 256,
-                    "language": "py3",
-                }
-            ),
+            json=(data_end),
         )
         data = response.get_json()
-    assert (
-        data["message"]
-        == "Wrong values. Programming language not standardized, code is empty or time limit is unreasonable"
-    )
+    assert data["message"] == "Invalid time limit provided."
 
 
-def test_judge_end_post_middleware_error_code_empty(app, client) -> None:
+def test_judge_end_post_middleware_error_code_empty(
+    data_end: dict, app: Any, client: Any
+) -> None:
     """Test for middleware's empty code judge endpoint."""
+    data_end["code"] = ""
     with app.app_context():
         response = client.post(
             "/judge/end",
-            json=(
-                {
-                    "code": "",
-                    "submission": "19A7B",
-                    "input": [1, 2, 3, 4],
-                    "output": [1, 4, 9, 16],
-                    "time_limit": 1,
-                    "memory_limit": 100,
-                    "language": "py3",
-                }
-            ),
+            json=(data_end),
         )
         data = response.get_json()
-    assert (
-        data["message"]
-        == "Wrong values. Programming language not standardized, code is empty or time limit is unreasonable"
-    )
+    assert data["message"] == "Missing or empty code field."
 
 
-def test_judge_end_post_middleware_error_not_standardized(app, client) -> None:
+def test_judge_end_post_middleware_error_unsupported_language(
+    data_end: dict, app: Any, client: Any
+) -> None:
     """Test for middleware's not standardized judge endpoint."""
+    data_end["language"] = "pyjava3"
     with app.app_context():
         response = client.post(
             "/judge/end",
-            json=(
-                {
-                    "code": "print('Hello World!')\n",
-                    "submission": "19A7B",
-                    "input": [1, 2, 3, 4],
-                    "output": [1, 4, 9, 16],
-                    "time_limit": 9,
-                    "memory_limit": 100,
-                    "language": "pyjava3",
-                }
-            ),
+            json=(data_end),
         )
         data = response.get_json()
-    assert (
-        data["message"]
-        == "Wrong values. Programming language not standardized, code is empty or time limit is unreasonable"
-    )
+    assert data["message"] == "Unsupported language provided."
+
+
+def test_judge_end_post_middleware_error_empty_input(
+    data_end: dict, app: Any, client: Any
+) -> None:
+    """Test for middleware's empty input judge endpoint."""
+    data_end["output"] = ""
+    with app.app_context():
+        response = client.post(
+            "/judge/end",
+            json=(data_end),
+        )
+        data = response.get_json()
+    assert data["message"] == "Missing or empty output field."
+
+
+def test_judge_end_post_middleware_error_empty_output(
+    data_end: dict, app: Any, client: Any
+) -> None:
+    """Test for middleware's not standardized judge endpoint."""
+    data_end["input"] = ""
+    with app.app_context():
+        response = client.post(
+            "/judge/end",
+            json=(data_end),
+        )
+        data = response.get_json()
+    assert data["message"] == "Missing or empty input field."
 
 
 def test_judge_end_post_code_test_AC(app, client) -> None:

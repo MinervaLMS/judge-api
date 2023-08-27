@@ -11,7 +11,8 @@ judge_endpoint = Blueprint("judge_endpoint", __name__)
 def judge_end() -> Request:
     """Endpoint receiving data from back-end
 
-    return: Request containing either a error message or the data returned by the executor.
+        Returns: 
+                Request containing either an error message or the data returned by the executor.
     """
 
     check = EndpointCheck(request)
