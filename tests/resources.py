@@ -11,7 +11,6 @@ DATA = {
 }
 
 
-
 CODE_EXECUTOR = """
 n, k = map(int,'input()'.split("-"))
 circle = list(range(1, n + 1))
@@ -22,3 +21,14 @@ for i in range(n-1):
     circle.pop(index)
 print(circle[0])
 """
+
+"""Submission for the unit tests over endpoint"""
+DATA_ENDPOINT = {
+    "code": "print(int(input())**2)",
+    "submission": "19Aa7B",
+    "input": "3",
+    "output": "9",
+    "time_limit": 5000,
+    "memory_limit": 256,
+    "language": "py3",
+}
