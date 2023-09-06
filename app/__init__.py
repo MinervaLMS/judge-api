@@ -1,14 +1,14 @@
 """Flask app creation."""
 
 from flask import Flask
-
+from app.problem import problem
 from app.ping import ping
 from app.ping.judge_endpoint import judge_endpoint
 
 
 # Active endpoints noted as following:
 # (url_prefix, blueprint_object)
-ACTIVE_ENDPOINTS = (("/", ping), ("/", judge_endpoint))
+ACTIVE_ENDPOINTS = (("/", ping), ("/", judge_endpoint), ("/", problem))
 
 
 def create_app() -> Flask:

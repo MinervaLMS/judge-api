@@ -9,3 +9,4 @@ KEYS_REQUESTED = (
     "time_limit",
     "memory_limit",
 )
+PROBLEMS_FOLDER = "../IO/problems/"
