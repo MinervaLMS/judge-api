@@ -4,23 +4,9 @@ import os
 import zipfile
 import yaml
 import pytest
-from app import create_app
+from app.utils.constants import PROBLEMS_FOLDER
 from tests.resources import DATA_PROBLEM
-from utils.constants import PROBLEMS_FOLDER
-
-
-@pytest.fixture(name="app")
-def app_with_create_problem():
-    """Fixture providing app for testing problem endpoint"""
-    app = create_app()
-    app.config["TESTING"] = True
-    return app
-
-
-@pytest.fixture(name="data_problem")
-def data_example():
-    """Fixture providing example data for testing new_problem endpoint"""
-    return DATA_PROBLEM
+from tests.conftest import data_example, app_with_create_problem
 
 
 def test_judge_new_problem_success(client, data_problem):

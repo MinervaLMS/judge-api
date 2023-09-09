@@ -3,7 +3,8 @@ from typing import List
 import os
 import zipfile
 import yaml
-from utils.constants import PROBLEMS_FOLDER
+
+from app.utils.constants import PROBLEMS_FOLDER
 
 
 class FileCreator:
@@ -38,7 +39,14 @@ class FileCreator:
         self.folder_path = os.path.join(PROBLEMS_FOLDER, problem_id)
         os.makedirs(self.folder_path, exist_ok=True)
 
-    def create_input_output_files(self) -> None:
+    def save(self):
+        """create remove and save de files"""
+        self.create_input_output_files()
+        self.create_zip_file()
+        self.create_yaml_file()
+        self.remove_input_output_files()
+
+    def create_input_output_files(self):
         """
         Create input and output files for the problem.
         """
@@ -57,6 +65,15 @@ class FileCreator:
                 encoding="utf-8",
             ) as f_out:
                 f_out.write(output_text)
+
+    def remove_input_output_files(self) -> None:
+        """remove files from the problem_id folder that are not present in a ZIP file"""
+
+        for i in range(1, len(self.input_data) + 1):
+            in_file = os.path.join(self.folder_path, f"{self.problem_id}.{i}.in")
+            out_file = os.path.join(self.folder_path, f"{self.problem_id}.{i}.out")
+            os.remove(in_file)
+            os.remove(out_file)
 
     def create_zip_file(self) -> None:
         """

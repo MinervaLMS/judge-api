@@ -7,7 +7,7 @@ problem = Blueprint("problem", __name__)
 
 
 @problem.route("/problem", methods=["POST"])
-def judge_new_problem() -> Tuple[Response, int]:
+def new_problem() -> Tuple[Response, int]:
     """Endpoint for creating and submitting a new problem to the judge.
 
     Returns:
@@ -17,21 +17,13 @@ def judge_new_problem() -> Tuple[Response, int]:
 
     data = request.json
 
-    if data is None:
-        return jsonify({"error": "Invalid JSON data"}), 400
+    problem_creator = FileCreator(
+        data.get("problem_id"),
+        data.get("input"),
+        data.get("output"),
+        data.get("points"),
+    )
 
-    input_data = data.get("input")
-    output_data = data.get("output")
-    problem_id = data.get("problem_id")
-    points = data.get("points")
-
-    if None in [input_data, output_data, problem_id, points]:
-        return jsonify({"error": "Missing required data"}), 400
-
-    problem_creator = FileCreator(problem_id, input_data, output_data, points)
-
-    problem_creator.create_input_output_files()
-    problem_creator.create_zip_file()
-    problem_creator.create_yaml_file()
+    problem_creator.save()
 
     return jsonify({"message": "Problem created successfully."}), 200
