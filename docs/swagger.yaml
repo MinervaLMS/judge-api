@@ -1,0 +1,102 @@
+openapi: 3.0.3
+info:
+  title: Create Problem API
+  description: Endpoint for creating and submitting a new problem to the judge.
+  version: 1.0.0
+paths:
+  /problem:
+    post:
+      summary: Create a new problem
+      description: |
+        This endpoint allows you to create and submit a new problem to the judge.
+      requestBody:
+        description: Problem data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                problem_id:
+                  type: integer
+                  description: The ID of the problem.
+                input:
+                  type: string
+                  description: The input data for the problem.
+                output:
+                  type: string
+                  description: The expected output data for the problem.
+                points:
+                  type: integer
+                  description: The number of points awarded for solving the problem.
+              required:
+                - problem_id
+                - input
+                - output
+                - points
+      responses:
+        '200':
+          description: Problem created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: A success message.
+                required:
+                  - message
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: A description of the error.
+                required:
+                  - message
+  /ping:
+    get:
+      summary: Ping endpoint
+      description: Used to check if the app is up.
+      responses:
+        '200':
+          description: Pong response
+          content:
+            text/plain:
+              schema:
+                type: string
+  /judge/end:
+    post:
+      summary: Endpoint for judge's data input
+      description: |
+        This endpoint receives data from the back-end and returns either an error message or the data returned by the executor.
+      responses:
+        '201':
+          description: Data received successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: A success message.
+                required:
+                  - message
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: A description of the error.
+                required:
+                  - message
