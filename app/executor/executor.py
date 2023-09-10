@@ -2,8 +2,9 @@
 
 import io
 import sys
-import time
-import psutil
+from app.DMOJ.submission import Submission
+from app.DMOJ.judge import Judge
+from app.DMOJ.judge_connection import SingletonJudge
 
 
 class Executor:
@@ -17,21 +18,12 @@ class Executor:
     def judge(self) -> dict:
         """Method that runs the code on the judge."""
 
-        start_time = time.time()
+        judge_connection = SingletonJudge()
 
-        memory_before = psutil.virtual_memory().available
-
-        result = self.executioner()
-
-        end_time = time.time()
-
-        memory_after = psutil.virtual_memory().available
-
-        return {
-            "execution_time": end_time - start_time,
-            "memory_used": (memory_before - memory_after) / (1024**2),
-            "verdict": ("AC" if result else "WA"),
-        }
+        submission = Submission(1, "2323", "TEST", self.code, "PY3", 1, 80760)
+        ans = Judge.submit(submission, judge_connection)
+        verdict = ans[-1]["flag"]
+        return {"verdict": "WA" if verdict == 1 else "AC"}
 
     def executioner(self) -> bool:
         """Method that returns the result of the execution."""

@@ -4,7 +4,7 @@ from flask import Flask
 
 from app.ping import ping
 from app.ping.judge_endpoint import judge_endpoint
-
+from app.DMOJ.judge_connection import SingletonJudge
 
 # Active endpoints noted as following:
 # (url_prefix, blueprint_object)
@@ -17,6 +17,7 @@ def create_app() -> Flask:
 
     # accepts both /endpoint and /endpoint/ as valid URLs
     app.url_map.strict_slashes = False
+    SingletonJudge()
 
     # register each active blueprint
     for url, blueprint in ACTIVE_ENDPOINTS:
