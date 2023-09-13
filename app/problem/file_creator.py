@@ -93,7 +93,7 @@ class FileCreator:
                     f"{self.problem_id}.{i}.out",
                 )
 
-    def create_yaml_file(self) -> None:
+    def create_yaml_file(self):
         """
         Create a YAML file with problem metadata.
         """
@@ -103,13 +103,10 @@ class FileCreator:
                 {
                     "in": f"{self.problem_id}.{i}.in",
                     "out": f"{self.problem_id}.{i}.out",
-                    "points": p,
+                    "points": f"{p}",
                 }
-                for i, p in enumerate(self.points, start=1)
+                for i, p in enumerate(self.points)
             ],
         }
-
-        with open(
-            os.path.join(self.folder_path, "problem.yml"), "w", encoding="utf-8"
-        ) as yml_file:
-            yaml.dump(yml_data, yml_file)
+        with open(os.path.join(self.folder_path, "init.yml"), "w") as yml_file:
+            yaml.dump(yml_data, yml_file, default_flow_style=None)

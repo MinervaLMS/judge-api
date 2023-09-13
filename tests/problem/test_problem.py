@@ -35,7 +35,7 @@ def test_create_yaml_file(client, app, data_problem):
     assert response.status_code == 200
 
     problem_id = data_problem["problem_id"]
-    yaml_file_path = os.path.join(PROBLEMS_FOLDER, problem_id, "problem.yml")
+    yaml_file_path = os.path.join(PROBLEMS_FOLDER, problem_id, "init.yml")
     assert os.path.exists(yaml_file_path)
 
 
@@ -75,13 +75,18 @@ def test_yaml_content(client, app, data_problem):
     assert response.status_code == 200
 
     problem_id = data_problem["problem_id"]
-    yaml_file_path = os.path.join(PROBLEMS_FOLDER, problem_id, "problem.yml")
-    with open(yaml_file_path, "r", encoding="utf-8") as yml_file:
+    yaml_file_path = os.path.join(PROBLEMS_FOLDER, problem_id, "init.yml")
+    expected_test_cases = [
+        {
+            "in": f"{problem_id}.{i}.in",
+            "out": f"{problem_id}.{i}.out",
+            "points": str(points),
+        }
+        for i, points in enumerate([45, 75])
+    ]
+    with open(yaml_file_path, "r") as yml_file:
         yml_data = yaml.safe_load(yml_file)
         assert "archive" in yml_data
         assert "test_cases" in yml_data
-        assert {
-            "in": "EDM05E01.1.in",
-            "out": "EDM05E01.1.out",
-            "points": 45,
-        } in yml_data["test_cases"]
+        for expected_case in expected_test_cases:
+            assert expected_case in yml_data["test_cases"]
