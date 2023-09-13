@@ -65,7 +65,7 @@
 </details>
 
 
-
+ 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
@@ -108,7 +108,7 @@ In order to effectively work with this project, it's necessary to install certai
 Nice to have:
 - Consider adding an SSH key for seamless connection with GitHub. This small step can greatly enhance your experience by simplifying authentication processes and streamlining your interactions with the platform. Look this [tutorial](https://www.youtube.com/watch?v=8X4u9sca3Io) if you want
 
-### Installation
+### Installation 
 
 1. Clone the repo
    ```sh
@@ -135,6 +135,22 @@ Nice to have:
   ```sh
     pre-commit install
   ```
+### Config Judge DMOJ 
+> **_NOTE:_**  It is intended for Linux-based machines (WSL included); Windows is not supported.
+1. add dmoj to the project
+   ```sh
+    poetry add dmoj
+
+   ```
+
+2. in the poetry environment run the command
+   ```sh
+    dmoj-autoconf 
+
+   ```
+   copy and paste the output into judge-api/app/utils/constants.py RUNTIME
+
+finally verify that in the path of judge-api/app/utils/constants.py JUDGE_ROOT there is the folder problems with the problem TEST inside
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
