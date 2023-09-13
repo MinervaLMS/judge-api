@@ -80,7 +80,7 @@ def test_yaml_content(client, app, data_problem):
         {
             "in": f"{problem_id}.{i}.in",
             "out": f"{problem_id}.{i}.out",
-            "points": str(points),
+            "points": points,
         }
         for i, points in enumerate([45, 75])
     ]

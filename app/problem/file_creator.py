@@ -103,7 +103,7 @@ class FileCreator:
                 {
                     "in": f"{self.problem_id}.{i}.in",
                     "out": f"{self.problem_id}.{i}.out",
-                    "points": f"{p}",
+                    "points": p,
                 }
                 for i, p in enumerate(self.points)
             ],

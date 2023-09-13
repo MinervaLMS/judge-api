@@ -1,4 +1,0 @@
-archive: EDM05E01.zip
-test_cases:
-- {in: EDM05E01.0.in, out: EDM05E01.0.out, points: '45'}
-- {in: EDM05E01.1.in, out: EDM05E01.1.out, points: '75'}
