@@ -1,8 +1,10 @@
 """Here are define pytest fixtures, hooks and plugins. """
-import copy
 from typing import Any
 import pytest
+
+from app.DMOJ.judge_connection import SingletonJudge
 from tests.resources import DATA_ENDPOINT, DATA_PROBLEM
+
 from app import create_app
 
 
@@ -11,6 +13,13 @@ def app() -> Any:
     """App fixture."""
     flask_app = create_app()
     return flask_app
+
+
+@pytest.fixture
+def judge_instance():
+    """Judge connection"""
+    judge = SingletonJudge()
+    return judge
 
 
 @pytest.fixture()

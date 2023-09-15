@@ -5,7 +5,7 @@ from typing import Any
 def test_judge_end_ping(client) -> None:
     """Test for ping endpoint."""
     response = client.get("/ping")
-    data = response.get_data()
+    response.get_data()
     assert response.data == b"pong"
 
 
@@ -136,8 +136,8 @@ def test_judge_end_post_code_test_AC(app, client) -> None:
             "/judge/end",
             json=(
                 {
-                    "code": "x=input()\nprint(list(i for i in range(x)))",
-                    "submission": "19Aa7B",
+                    "code": "x=int(input())\nprint(x**2)",
+                    "submission": "TEST",
                     "input": "2",
                     "output": "[0, 1]",
                     "time_limit": 1,
@@ -157,8 +157,8 @@ def test_judge_end_post_code_test_WA(app, client) -> None:
             "/judge/end",
             json=(
                 {
-                    "code": "x=input()\nprint(list(i for i in range(x)))",
-                    "submission": "19Aa7B",
+                    "code": "x=int(input())\nprint(x*2)",
+                    "submission": "TEST",
                     "input": "2",
                     "output": "[0, 2]",
                     "time_limit": 1,
