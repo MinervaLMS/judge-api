@@ -136,14 +136,8 @@ Nice to have:
     pre-commit install
   ```
 ### Config Judge DMOJ 
-> **_NOTE:_**  It is intended for Linux-based machines (WSL included); Windows is not supported.
-1. add dmoj to the project
-   ```sh
-    poetry add dmoj
-
-   ```
-
-2. in the poetry environment run the command
+> **_NOTE:_**  It is intended for Linux-based machines (WSL included); Windows and mac is not supported.
+1. in the poetry environment run the command
    ```sh
     dmoj-autoconf 
 

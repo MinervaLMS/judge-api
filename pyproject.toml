@@ -8,6 +8,7 @@ authors = ["Cristian Camilo Henao Rojas <crhenaor@unal.edu.co>"]
 python = ">=3.8,<=3.12"
 Flask = "^2.3.2"
 psutil = "^5.9.5"
+dmoj = "^4.1.0"
 
 
 [tool.poetry.dev-dependencies]
