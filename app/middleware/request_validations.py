@@ -1,4 +1,5 @@
 """This module contains Middleware class"""
+from typing import Dict
 from utils.exceptions import RequestFormatError
 
 
@@ -9,7 +10,7 @@ class Middleware:
     they meet the necessary criteria.
     """
 
-    def __init__(self, data: dict):
+    def __init__(self, data: Dict[str, str]):
         """
         Initializes an instance of Middleware for request validation.
 
@@ -20,15 +21,18 @@ class Middleware:
         self.code = data["code"]
         self.input = data["input"]
         self.output = data["output"]
-        self.time_limit = data["time_limit"]
-        self.memory_limit = data["memory_limit"]
+        self.time_limit = int(data["time_limit"])
+        self.memory_limit = int(data["memory_limit"])
         self.language = data["language"]
 
-    def validate_code(self):
+    def validate_code(self) -> str:
         """
         Check if the language name is standardized
         if the code, input and output are not empty
         if the time and memory limit is reasonable
+
+        Returns:
+            str: A message indicating the result of the validation.
         """
         try:
             self.empty_data()
@@ -39,7 +43,7 @@ class Middleware:
         except RequestFormatError as error:
             return str(error)
 
-    def empty_data(self):
+    def empty_data(self) -> None:
         """
         Check if the code, input, output, time_limit,
         memory_limit, and language fields are not empty.
@@ -62,7 +66,7 @@ class Middleware:
                     field_name, f"Missing or empty {field_name} field."
                 )
 
-    def standardize_language_name(self):
+    def standardize_language_name(self) -> None:
         """
         Check if the provided language is supported.
 
@@ -73,7 +77,7 @@ class Middleware:
         if self.language not in supported_languages:
             raise RequestFormatError("language", "Unsupported language provided.")
 
-    def validate_time_limit(self):
+    def validate_time_limit(self) -> None:
         """
         Validate if the provided time limit is within a reasonable range.
 
@@ -83,9 +87,10 @@ class Middleware:
         if self.time_limit > 10000:
             raise RequestFormatError("time_limit", "Invalid time limit provided.")
 
-    def validate_memory_limit(self):
+    def validate_memory_limit(self) -> None:
         """
         Validate if the provided memory limit is within a reasonable range.
+
         Raises:
             RequestFormatError: If the memory limit is invalid.
         """

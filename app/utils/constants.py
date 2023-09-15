@@ -20,3 +20,6 @@ RUNTIME = {
 }
 
 JUDGE_ROOT = "/mnt"
+
+PROBLEMS_FOLDER = "../mnt/problems/"
+

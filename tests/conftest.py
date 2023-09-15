@@ -3,6 +3,8 @@ from typing import Any
 import pytest
 
 from app.DMOJ.judge_connection import SingletonJudge
+from tests.resources import DATA_ENDPOINT, DATA_PROBLEM
+
 from app import create_app
 
 
@@ -38,3 +40,17 @@ def data_end_example():
         "memory_limit": 256,
         "language": "py3",
     }
+
+
+@pytest.fixture(name="app")
+def app_with_create_problem():
+    """Fixture providing app for testing problem endpoint"""
+    app = create_app()
+    app.config["TESTING"] = True
+    return app
+
+
+@pytest.fixture(name="data_problem")
+def data_example():
+    """Fixture providing example data for testing new_problem endpoint"""
+    return DATA_PROBLEM
