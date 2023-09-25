@@ -21,5 +21,4 @@ RUNTIME = {
 
 JUDGE_ROOT = "/mnt"
 
-PROBLEMS_FOLDER = "../mnt/problems/"
-
+PROBLEMS_FOLDER = "/../mnt/problems/"

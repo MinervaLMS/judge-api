@@ -51,7 +51,7 @@ class FileCreator:
         Create input and output files for the problem.
         """
         for i, (input_text, output_text) in enumerate(
-            zip(self.input_data, self.output_data), start=1
+            zip(self.input_data, self.output_data), start=0
         ):
             with open(
                 os.path.join(self.folder_path, f"{self.problem_id}.{i}.in"),
@@ -69,7 +69,7 @@ class FileCreator:
     def remove_input_output_files(self) -> None:
         """remove files from the problem_id folder that are not present in a ZIP file"""
 
-        for i in range(1, len(self.input_data) + 1):
+        for i in range(0, len(self.input_data)):
             in_file = os.path.join(self.folder_path, f"{self.problem_id}.{i}.in")
             out_file = os.path.join(self.folder_path, f"{self.problem_id}.{i}.out")
             os.remove(in_file)
@@ -83,7 +83,7 @@ class FileCreator:
         with zipfile.ZipFile(
             os.path.join(self.folder_path, zip_filename), "w", zipfile.ZIP_DEFLATED
         ) as zipf:
-            for i in range(1, len(self.input_data) + 1):
+            for i in range(0, len(self.input_data)):
                 zipf.write(
                     os.path.join(self.folder_path, f"{self.problem_id}.{i}.in"),
                     f"{self.problem_id}.{i}.in",

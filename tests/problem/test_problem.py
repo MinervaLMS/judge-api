@@ -30,7 +30,7 @@ def test_create_problem_folder(client, data_problem):
 def test_create_yaml_file(client, app, data_problem):
     """Test if the problem_id.yaml file is created successfully."""
     client = app.test_client()
-
+    
     response = client.post("/problem", json=data_problem)
     assert response.status_code == 200
 
