@@ -20,7 +20,12 @@ def judge_end() -> Request:
         return check.response, 400
 
     executor = Executor(
-        check.middleware.output, check.middleware.input, check.middleware.code
+        problem_id=check.middleware.problem_id,
+        submission_id=check.middleware.submission_id, 
+        time_limit=check.middleware.time_limit, 
+        memory_limit=check.middleware.memory_limit,
+        language=check.middleware.language.upper(),
+        code=check.middleware.code
     )
 
     return executor.judge(), 201

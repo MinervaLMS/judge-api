@@ -5,14 +5,17 @@ import sys
 from app.DMOJ.submission import Submission
 from app.DMOJ.judge import Judge
 from app.DMOJ.judge_connection import SingletonJudge
-
+from app.utils.constants import FLAGS_ERRORS
 
 class Executor:
     """Class that conects the judge with the code."""
 
-    def __init__(self, output: str, input_data: str, code: str):
-        self.output = output
-        self.input_data = input_data
+    def __init__(self, problem_id: str, submission_id: str, time_limit: int, memory_limit: int, language: str, code: str):
+        self.problem_id = problem_id
+        self.submission_id = submission_id
+        self.time_limit = time_limit
+        self.memory_limit = memory_limit
+        self.language = language 
         self.code = code
 
     def judge(self) -> dict:
@@ -22,12 +25,13 @@ class Executor:
         judge_connection = SingletonJudge()
 
         submission = Submission(id=1,
-                                submission_id="TEST", 
-                                problem_id="ALA4", #Se debe especificar manualmente el ID de problema, deberia ser automatico. 
-                                source=self.code, 
-                                language="PY3", 
-                                time_limit=1, 
-                                memory_limit=80760)
+                                problem_id=self.problem_id,
+                                submission_id=self.submission_id, 
+                                time_limit=self.time_limit,
+                                memory_limit=self.memory_limit,
+                                language=self.language, 
+                                source=self.code
+                                )
         ans = Judge.submit(submission, judge_connection)
         
         memories=[dic['max_memory'] for dic in ans]
@@ -35,20 +39,20 @@ class Executor:
         exec_times=[dic['execution_time'] for dic in ans]
         
         """If there are not WA"""
-        if(1 not in wa):
+        if(sum(wa)==0):
             return {
-                "verdict": "AC",
+                "submission_id": self.submission_id,
+                "verdict": FLAGS_ERRORS[0],
                 "max_memory":round(max(memories),1),
                 "max_time":round(max(exec_times),2)}  
         
         """If there are at least WA"""
-        first_wa_index=wa.index(1)
+        L_first_wa=[1 if flag!=0 else 0 for flag in wa]                
+        first_wa_index=L_first_wa.index(1)
         return {
-            "submission_id": "TEST",
-            "verdict": "WA",
-            "wrong_case": {"case_number": first_wa_index+1,
-                           "input": self.input_data[first_wa_index],
-                           "output_expected": self.output[first_wa_index]},
+            "submission_id": self.submission_id,
+            "verdict": FLAGS_ERRORS[wa[first_wa_index]],
+            "wrong_case": first_wa_index+1,
             "max_memory": round(max(memories),1),
             "max_time": round(max(exec_times),2)}
 
