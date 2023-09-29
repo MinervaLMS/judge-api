@@ -23,7 +23,6 @@ def new_problem() -> Tuple[Response, int]:
         data.get("output"),
         data.get("points"),
     )
-
     problem_creator.save()
 
     return jsonify({"message": "Problem created successfully."}), 200

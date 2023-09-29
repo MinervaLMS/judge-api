@@ -2,16 +2,16 @@
 
 DATA = {
     "code": "print(int(input())**2)",
-    "input": "3",
-    "output": "9",
-    "time_limit": 5000,
-    "memory_limit": 256,
+    "problem_id": "test_power2",
+    "submission_id": "18",
+    "time_limit": 1,
+    "memory_limit": 9999,
     "language": "py3",
 }
 
 
 CODE_EXECUTOR = """
-n, k = map(int,'input()'.split("-"))
+n, k = map(int,input().split("-"))
 circle = list(range(1, n + 1))
 index = 0
 result = []
@@ -23,16 +23,15 @@ print(circle[0])
 
 DATA_ENDPOINT = {
     "code": "print(int(input())**2)",
-    "submission": "19Aa7B",
-    "input": "3",
-    "output": "9",
-    "time_limit": 5000,
-    "memory_limit": 256,
+    "problem_id": "test_power2",
+    "submission_id": "18",
+    "time_limit": 1,
+    "memory_limit": 9999,
     "language": "py3",
 }
 
 DATA_PROBLEM = {
-    "input": ["4\n1 2 3 4", "8\n1 5 2 3 2 3 4 5"],
+    "input": ["4\n1\n2\n3\n4", "8\n1\n5\n2\n3\n2\n3\n4\n5"],
     "output": ["La suma es 10", "La suma es 25"],
     "problem_id": "EDM05E01",
     "points": [45, 75],

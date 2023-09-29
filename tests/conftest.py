@@ -54,3 +54,77 @@ def app_with_create_problem():
 def data_example():
     """Fixture providing example data for testing new_problem endpoint"""
     return DATA_PROBLEM
+
+@pytest.fixture(name="test_problems_executor")
+def test_problems_executor(app,client):
+    with app.app_context():
+        client.post(
+            "/problem",
+            json=(
+                {
+                    "input": ["1"],
+                    "output": ["1"],
+                    "problem_id": "test_1",
+                    "points": [18]
+                }
+            ),
+        )
+        client.post(
+            "/problem",
+            json=(
+                {
+                    "input": ["1","2","3"],
+                    "output": ["1","2","3"],
+                    "problem_id": "test_2",
+                    "points": [18,36,54]
+                }
+            ),
+        )
+        client.post(
+            "/problem",
+            json=(
+                {
+                    "input": ["1","10"],
+                    "output": ["2","20"],
+                    "problem_id": "test_3",
+                    "points": [18,36]
+                }
+            ),
+        )
+        client.post(
+            "/problem",
+            json=(
+                {
+                    "input": ["2","10"],
+                    "output": ["[0, 1]","[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]"],
+                    "problem_id": "test_4",
+                    "points": [18,36]
+                }
+            ),
+        )
+        client.post(
+            "/problem",
+            json=(
+                {
+                    "input": ["2-3"],
+                    "output": ["2"],
+                    "problem_id": "test_5",
+                    "points": [18]
+                }
+            ),
+        )
+
+@pytest.fixture(name="test_power2")
+def test_power2(app,client):
+    with app.app_context():
+        client.post(
+            "/problem",
+            json=(
+                {
+                    "input": ["2","3"],
+                    "output": ["4","9"],
+                    "problem_id": "test_power2",
+                    "points": [18,36]
+                }
+            ),
+        )
