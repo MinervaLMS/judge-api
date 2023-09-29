@@ -13,6 +13,7 @@ def test_judge_new_problem_success(client, data_problem):
     """Test the endpoint for successfully creating a new problem."""
     response = client.post("/problem", json=data_problem)
     assert response.status_code == 200
+
     response_data = json.loads(response.data)
     assert response_data["message"] == "Problem created successfully."
 
@@ -61,10 +62,10 @@ def test_zip_content(client, app, data_problem):
     problem_id = data_problem["problem_id"]
     zip_file_path = os.path.join(PROBLEMS_FOLDER, problem_id, f"{problem_id}.zip")
     with zipfile.ZipFile(zip_file_path, "r") as zipf:
+        assert f"{problem_id}.0.in" in zipf.namelist()
+        assert f"{problem_id}.0.out" in zipf.namelist()
         assert f"{problem_id}.1.in" in zipf.namelist()
         assert f"{problem_id}.1.out" in zipf.namelist()
-        assert f"{problem_id}.2.in" in zipf.namelist()
-        assert f"{problem_id}.2.out" in zipf.namelist()
 
 
 def test_yaml_content(client, app, data_problem):
