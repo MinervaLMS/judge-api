@@ -20,8 +20,7 @@ class Executor:
         self.code = code
 
     def judge(self) -> dict:
-        """Method that runs the code on the judge."""
-        """Return a resume of veredicts as a dict"""
+        """Method that runs the code on the judge and return a resume of veredicts as a dict"""
 
         judge_connection = SingletonJudge()
 

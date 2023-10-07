@@ -89,6 +89,9 @@ class Middleware:
 
         if (self.time_limit > 10000):
             raise RequestFormatError("time_limit", "Invalid time limit provided.")
+        
+        if (self.time_limit < 0):
+            raise RequestFormatError("time_limit", "Invalid time limit provided.")
 
     def validate_memory_limit(self) -> None:
         """
@@ -101,4 +104,7 @@ class Middleware:
             raise RequestFormatError("memory_limit", "Invalid memory limit provided.")
         
         if (self.memory_limit > 10000):
+            raise RequestFormatError("memory_limit", "Invalid memory limit provided.")
+        
+        if (self.memory_limit < 0):
             raise RequestFormatError("memory_limit", "Invalid memory limit provided.")

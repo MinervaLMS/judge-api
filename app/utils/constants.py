@@ -33,6 +33,8 @@ FLAGS_ERRORS={
         "message": "Runtime Error"},
     25: {"verdict": "MLE",
         "message": "Memory Limit Exceeded"},
+    9: {"verdict": "MLE",
+        "message": "Memory Limit Exceeded"},
     7: {"verdict": "TLE",
         "message": "Time Limit Exceeded"},
     #Without OLE - Output Limit Exceeded  and IE - Internal Error
