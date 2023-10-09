@@ -6,30 +6,37 @@ from tests.resources import CODE_EXECUTOR
 
 
 @pytest.mark.parametrize(
-    "output, input_data, code",
+    "problem_id, submission_id, time_limit, memory_limit, language, code",
     [
-        ("1", "1", "print(1)"),
-        ("1", "1", "x=input()\nprint(x)"),
-        ("10", "5", "x=int(input())\nprint(x*2)"),
-        ("[0, 1]", "2", "x=input()\nprint(list(i for i in range(x)))"),
-        ("41", "80-25", CODE_EXECUTOR),
+        ("test_1", "submit_1",1,9999,"PY3","print(1)"),
+        ("test_2", "submit_2",1,9999,"PY3", "x=input()\nprint(x)"),
+        ("test_3", "submit_3",1,9999,"PY3", "x=int(input())\nprint(x*2)"),
+        ("test_4", "submit_4",1,9999,"PY3", "x=int(input())\nprint(list(i for i in range(x)))"),
+        ("test_5", "submit_5",1,9999,"PY3", CODE_EXECUTOR),
     ],
 )
-def test_executioner(output: str, input_data: str, code: str):
+def test_executioner(problem_id: str, submission_id: str, time_limit: int, memory_limit: int, language: str, code: str, test_problems_executor):
     """Test for executioner method."""
-    assert Executor(output, input_data, code).executioner()
+    
+    """Creating problems for test executor"""
+    test_problems_executor
+    
+    assert Executor(problem_id, submission_id, time_limit, memory_limit, language, code).executioner()
 
 
 @pytest.mark.parametrize(
-    "output, input_data, code",
+    "problem_id, submission_id, time_limit, memory_limit, language, code",
     [
-        ("1", "5", "print(2)"),
-        ("****", "3", "x=input()\nprint('*'*3)"),
-        ("this is a test", "tset a is siht", "w=input()\nprint(word[::-1])"),
-        ("7", "6", "print(sum(list(range(1, int(input())+1)))))"),
-        ("3", "8-4", CODE_EXECUTOR),
+        ("test_1", "submit_1",1,9999,"PY3", "print(2)"),
+        ("test_2", "submit_2",1,9999,"PY3", "x=input()\nprint('*'*3)"),
+        ("test_3", "submit_3",1,9999,"PY3", "w=input()\nprint(word[::-1])"),
+        ("test_4", "submit_4",1,9999,"PY3", "print(sum(list(range(1, int(input())+1)))))"),
     ],
 )
-def test_executioner_error(output: str, input_data: str, code: str):
+def test_executioner_error(problem_id: str, submission_id: str, time_limit: int, memory_limit: int, language: str, code: str, test_problems_executor):
     """Test for executioner method."""
-    assert not Executor(output, input_data, code).executioner()
+    
+    """Creating problems for test executor"""
+    test_problems_executor
+    
+    assert not Executor(problem_id, submission_id, time_limit, memory_limit, language, code).executioner()

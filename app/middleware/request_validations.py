@@ -18,12 +18,12 @@ class Middleware:
         - data (dict):
         A dictionary containing request data to be validated.
         """
-        self.code = data["code"]
-        self.input = data["input"]
-        self.output = data["output"]
-        self.time_limit = int(data["time_limit"])
-        self.memory_limit = int(data["memory_limit"])
+        self.problem_id = data["problem_id"]
+        self.submission_id = data["submission_id"]
+        self.time_limit = data["time_limit"]
+        self.memory_limit = data["memory_limit"]
         self.language = data["language"]
+        self.code = data["code"]
 
     def validate_code(self) -> str:
         """
@@ -52,12 +52,12 @@ class Middleware:
             RequestFormatError: If any of the required fields is missing or empty.
         """
         fields_to_check = [
-            ("code", self.code),
-            ("input", self.input),
-            ("output", self.output),
+            ("problem_id", self.problem_id),
+            ("submission_id", self.submission_id),
             ("time_limit", self.time_limit),
             ("memory_limit", self.memory_limit),
             ("language", self.language),
+            ("code", self.code),
         ]
 
         for field_name, field_value in fields_to_check:
@@ -73,7 +73,7 @@ class Middleware:
         Raises:
             RequestFormatError: If the provided language is not supported.
         """
-        supported_languages = {"py3", "java", "cpp"}
+        supported_languages = {"PY3","py3", "java", "cpp"}
         if self.language not in supported_languages:
             raise RequestFormatError("language", "Unsupported language provided.")
 
@@ -84,7 +84,13 @@ class Middleware:
         Raises:
             RequestFormatError: If the time limit is invalid.
         """
-        if self.time_limit > 10000:
+        if (type(self.time_limit)!=type(1)):
+            raise RequestFormatError("time_limit", "Invalid time limit provided.")
+
+        if (self.time_limit > 10000):
+            raise RequestFormatError("time_limit", "Invalid time limit provided.")
+        
+        if (self.time_limit < 0):
             raise RequestFormatError("time_limit", "Invalid time limit provided.")
 
     def validate_memory_limit(self) -> None:
@@ -94,5 +100,11 @@ class Middleware:
         Raises:
             RequestFormatError: If the memory limit is invalid.
         """
-        if self.memory_limit > 256:
+        if (type(self.memory_limit)!=type(1)):
+            raise RequestFormatError("memory_limit", "Invalid memory limit provided.")
+        
+        if (self.memory_limit > 10000):
+            raise RequestFormatError("memory_limit", "Invalid memory limit provided.")
+        
+        if (self.memory_limit < 0):
             raise RequestFormatError("memory_limit", "Invalid memory limit provided.")

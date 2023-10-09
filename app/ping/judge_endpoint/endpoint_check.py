@@ -31,7 +31,7 @@ class EndpointCheck:
             return False
 
         data = request.get_json()
-        if (not all(key in KEYS_REQUESTED for key in data)) or len(data) != 7:
+        if (not all(key in KEYS_REQUESTED for key in data)) or len(data) != 6:
             self.response = {"message": "Missing/wrong key values"}
             return False
 

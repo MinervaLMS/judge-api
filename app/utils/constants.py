@@ -1,13 +1,12 @@
 """judge_api constants"""
 
 KEYS_REQUESTED = (
-    "code",
-    "language",
-    "submission",
-    "input",
-    "output",
+    "problem_id",
+    "submission_id",
     "time_limit",
     "memory_limit",
+    "language",
+    "code"
 )
 
 RUNTIME = {
@@ -21,5 +20,22 @@ RUNTIME = {
 
 JUDGE_ROOT = "/mnt"
 
-PROBLEMS_FOLDER = "../mnt/problems/"
+PROBLEMS_FOLDER = "/mnt/problems/"
 
+FLAGS_ERRORS={
+    0: {"verdict": "AC",
+        "message": "Accepted"},
+    1: {"verdict": "WA",
+        "message": "Wrong Answer"},
+    17: {"verdict": "IR",
+        "message": "Invalid Return"},
+    3: {"verdict": "RTE",
+        "message": "Runtime Error"},
+    25: {"verdict": "MLE",
+        "message": "Memory Limit Exceeded"},
+    9: {"verdict": "MLE",
+        "message": "Memory Limit Exceeded"},
+    7: {"verdict": "TLE",
+        "message": "Time Limit Exceeded"},
+    #Without OLE - Output Limit Exceeded  and IE - Internal Error
+}
