@@ -20,7 +20,7 @@ RUNTIME = {
 
 JUDGE_ROOT = "/mnt"
 
-PROBLEMS_FOLDER = "/../mnt/problems/"
+PROBLEMS_FOLDER = "/mnt/problems/"
 
 FLAGS_ERRORS={
     0: {"verdict": "AC",
