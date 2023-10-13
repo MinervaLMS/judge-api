@@ -131,12 +131,29 @@ Nice to have:
     ```sh
         poetry install
     ```
+    - If you stumble upon an DMOJ error related to library $seccomp$, run the following command on you linux machine:
+        ```sh
+            apt install libseccomp-dev
+        ```
 5. We recommend configuring the pre-commit functionality within the Poetry environment, especially if you won't be using it in other repositories. However, you also have the option to set it up globally on your PC by installing pre-commit system-wide.
-  ```sh
+   ```sh
     pre-commit install
-  ```
+   ```
+6. The default DMOJ root is $/mnt$. We must give full permissions to users in order to place and modify archives located there. We must run:
+   ```sh
+    chmod 777 /mnt
+   ```
+7. To run the Judge API, run the following command, which can be understood as following:
+ The --http option starts an HTTP server at 0.0.0.0 port 5000. The --master option specifies the standard worker manager. The $-p$ option starts 4 worker processes; a starting value could be $CPU * 2$. The $-w$ option tells uWSGI how to import your application ([ref](https://flask.palletsprojects.com/en/latest/deploying/uwsgi/)). The $ \& $ value will let you operate your machine while the Judge API is running. 
+   ```sh
+    nohup uwsgi --http 0.0.0.0:5000 --master -p 4 -w wsgi:app &
+   ```
+    - If you require to terminate this process, run the following command (supposing you are running the API in the 5000 port as default).
+        ```sh
+            kill -9 $(lsof -t -i:"5000")
+        ```
 ### Config Judge DMOJ 
-> **_NOTE:_**  It is intended for Linux-based machines (WSL included); Windows and mac is not supported.
+> **_NOTE:_**  It is intended for Linux-based machines (WSL included); Windows and mac are not supported.
 1. in the poetry environment run the command
    ```sh
     dmoj-autoconf 
@@ -175,7 +192,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Project Link: [hhttps://github.com/MinervaLMS/judge-api/](https://github.com/MinervaLMS/judge-api/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
