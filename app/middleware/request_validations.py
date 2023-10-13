@@ -73,7 +73,7 @@ class Middleware:
         Raises:
             RequestFormatError: If the provided language is not supported.
         """
-        supported_languages = {"PY3","py3", "java", "cpp"}
+        supported_languages = {"PY3", "py3", "java", "cpp"}
         if self.language not in supported_languages:
             raise RequestFormatError("language", "Unsupported language provided.")
 
@@ -84,13 +84,13 @@ class Middleware:
         Raises:
             RequestFormatError: If the time limit is invalid.
         """
-        if (type(self.time_limit)!=type(1)):
+        if type(self.time_limit) != type(1):
             raise RequestFormatError("time_limit", "Invalid time limit provided.")
 
-        if (self.time_limit > 10000):
+        if self.time_limit > 10000:
             raise RequestFormatError("time_limit", "Invalid time limit provided.")
-        
-        if (self.time_limit < 0):
+
+        if self.time_limit < 0:
             raise RequestFormatError("time_limit", "Invalid time limit provided.")
 
     def validate_memory_limit(self) -> None:
@@ -100,11 +100,11 @@ class Middleware:
         Raises:
             RequestFormatError: If the memory limit is invalid.
         """
-        if (type(self.memory_limit)!=type(1)):
+        if type(self.memory_limit) != type(1):
             raise RequestFormatError("memory_limit", "Invalid memory limit provided.")
-        
-        if (self.memory_limit > 10000):
+
+        if self.memory_limit > 90000:
             raise RequestFormatError("memory_limit", "Invalid memory limit provided.")
-        
-        if (self.memory_limit < 0):
+
+        if self.memory_limit < 0:
             raise RequestFormatError("memory_limit", "Invalid memory limit provided.")
