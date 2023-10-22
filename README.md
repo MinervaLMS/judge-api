@@ -133,16 +133,34 @@ Nice to have:
     ```
     - If you stumble upon an DMOJ error related to library $seccomp$, run the following command on you linux machine:
         ```sh
-            apt install libseccomp-dev
+            sudo apt install libseccomp-dev
+        ```
+    - Another usual problem is related to 'x86_64-linux-gnu-gcc'. To solve it, install:
+        ```sh
+            sudo apt-get install build-essential
         ```
 5. We recommend configuring the pre-commit functionality within the Poetry environment, especially if you won't be using it in other repositories. However, you also have the option to set it up globally on your PC by installing pre-commit system-wide.
    ```sh
     pre-commit install
    ```
-6. The default DMOJ root is $/mnt$. We must give full permissions to users in order to place and modify archives located there. We must run:
+6. The default DMOJ root is $/mnt$. We must give permissions to a group in order to place and modify archives located there. As we desire not other users modifing our environment, first, let's create a group named judge:
    ```sh
-    chmod 777 /mnt
+    sudo groupadd judge
    ```
+And add user ubuntu to group judge:
+   ```sh
+    sudo usermod --append --groups judge ubuntu
+   ```
+To set permissions, we must change ownership of /mnt to be group judge:
+   ```sh
+    sudo chown :judge mnt
+   ```
+Finally, we set permissions. We will set it so that both root and group judge have rwx (read, write, execute) permissions and other users none. 
+   ```sh
+    sudo chmod 770 /mnt
+   ```
+A final reminder is that one must logout and login again for these changes to apply.
+
 7. To run the Judge API, run the following command, which can be understood as following:
  The --http option starts an HTTP server at 0.0.0.0 port 5000. The --master option specifies the standard worker manager. The $-p$ option starts 4 worker processes; a starting value could be $CPU * 2$. The $-w$ option tells uWSGI how to import your application ([ref](https://flask.palletsprojects.com/en/latest/deploying/uwsgi/)). The $ \& $ value will let you operate your machine while the Judge API is running. 
    ```sh
