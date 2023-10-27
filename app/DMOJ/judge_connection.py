@@ -57,6 +57,10 @@ class LocalPacketManager:
                 "points": result.points,
             }
         )
+        
+        # Stop in the first error.
+        if(result.result_flag!=0):
+            self.judge.abort_grading()
 
     def compile_error_packet(self, log: Any) -> None:
         """
